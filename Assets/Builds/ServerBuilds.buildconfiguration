@@ -1,0 +1,21 @@
+{
+    "Show": true,
+    "Dependencies": [],
+    "Components": [
+        {
+            "$type": "Unity.Build.Common.GeneralSettings, Unity.Build",
+            "ProductName": "NetBattlefield",
+            "CompanyName": "AFI",
+            "Version": "0.1"
+        },
+        {
+            "$type": "Unity.Build.Classic.EnableHeadlessMode, Unity.Build.Classic"
+        },
+        {
+            "$type": "Unity.Build.Common.PlayerScriptingDefines, Unity.Build",
+            "Defines": [
+                "UNITY_SERVER"
+            ]
+        }
+    ]
+}
