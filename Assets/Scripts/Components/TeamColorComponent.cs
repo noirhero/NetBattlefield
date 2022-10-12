@@ -2,6 +2,7 @@
 
 using System;
 using Unity.Entities;
+using Unity.NetCode;
 
 public enum TeamColor {
     None,
@@ -9,9 +10,9 @@ public enum TeamColor {
     Blue,
 }
 
-[Serializable]
+[GhostComponent]
 public struct TeamColorComponent : ISharedComponentData, IEquatable<TeamColorComponent> {
-    public TeamColor value;
+    [GhostField] public TeamColor value;
 
     public bool Equals(TeamColorComponent other) {
         return value == other.value;

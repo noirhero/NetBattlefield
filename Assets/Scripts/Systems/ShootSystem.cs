@@ -52,7 +52,7 @@ public partial class ShootSystem : SystemBase {
                 }
 
                 var sendRpcEntity = commandBuffer.CreateEntity();
-                commandBuffer.AddComponent(sendRpcEntity, new SpawnCylinderRequest {
+                commandBuffer.AddComponent(sendRpcEntity, new SpawnShootLineRequest {
                     start = shootRequest.translate,
                     end = end,
                 });

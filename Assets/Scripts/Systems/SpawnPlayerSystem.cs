@@ -5,6 +5,7 @@ using Unity.Entities;
 using Unity.Mathematics;
 using Unity.NetCode;
 using Unity.Transforms;
+using UnityEngine;
 using Random = Unity.Mathematics.Random;
 
 public struct TeamColorBuffer : IBufferElementData {
@@ -47,9 +48,16 @@ public partial class SpawnPlayerSystem : SystemBase {
         }
     }
 
+    private bool IsUpdate()  {
+        return 0 < _redTeamSpawnPoints.Length * _blueTeamSpawnPoints.Length;
+    }
+
     protected override void OnUpdate() {
         RefreshSpawnPointAndRotation(ref _redTeamSpawnPoints, ref _redTeamRotations, TeamColor.Red);
         RefreshSpawnPointAndRotation(ref _blueTeamSpawnPoints, ref _blueTeamRotations, TeamColor.Blue);
+        if (false == IsUpdate()) {
+            return;
+        }
 
         var prefab = GetSingleton<PrefabCapsuleComponent>().prefab;
         var networkIdFromEntity = GetComponentDataFromEntity<NetworkIdComponent>(true);
@@ -78,6 +86,13 @@ public partial class SpawnPlayerSystem : SystemBase {
                 });
                 commandBuffer.SetComponent(player, new Rotation {
                     Value = positionAndRotation.Item2
+                });
+
+                Quaternion oldQuaternion = positionAndRotation.Item2;
+                commandBuffer.SetComponent(player, new CharacterControllerInternalData {
+                    Entity = player,
+                    Input = new CharacterControllerInput(),
+                    CurrentRotationAngle = math.radians(oldQuaternion.eulerAngles.y)
                 });
 
                 commandBuffer.AddComponent<NetworkStreamInGame>(requestEntity.SourceConnection);

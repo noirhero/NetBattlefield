@@ -2,8 +2,11 @@
 
 using Unity.Collections;
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.NetCode;
+using Unity.Rendering;
 using Unity.Transforms;
+using Quaternion = UnityEngine.Quaternion;
 
 [UpdateInGroup(typeof(ClientSimulationSystemGroup))]
 public partial class TeamColorChangeSystem : SystemBase {
@@ -45,11 +48,30 @@ public partial class TeamColorChangeSystem : SystemBase {
                         commandBuffer.SetComponent(entity, new Rotation {
                             Value = changeTeamColor.rotation
                         });
+
+                        Quaternion oldQuaternion = changeTeamColor.rotation;
+                        commandBuffer.SetComponent(entity, new CharacterControllerInternalData {
+                            Entity = entity,
+                            Input = new CharacterControllerInput(),
+                            CurrentRotationAngle = math.radians(oldQuaternion.eulerAngles.y)
+                        });
+
+                        commandBuffer.AddComponent(entity, new URPMaterialPropertyBaseColor {
+                            Value = GetTeamColor(changeTeamColor.teamColor)
+                        });
                         break;
                     }
                 }
             })
             .Run();
         commandBuffer.Playback(EntityManager);
+    }
+
+    private float4 GetTeamColor(TeamColor teamColor) {
+        return teamColor switch {
+            TeamColor.Blue => new float4(0.0f, 0.0f, 1.0f, 1.0f),
+            TeamColor.Red => new float4(1.0f, 0.0f, 0.0f, 1.0f),
+            _ => new float4(0.0f, 0.0f, 0.0f, 1.0f)
+        };
     }
 }

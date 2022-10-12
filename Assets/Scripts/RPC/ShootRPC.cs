@@ -11,7 +11,7 @@ public struct ShootRequest : IRpcCommand {
 }
 
 [Serializable]
-public struct SpawnCylinderRequest : IRpcCommand {
+public struct SpawnShootLineRequest : IRpcCommand {
     public float3 start;
     public float3 end;
 }

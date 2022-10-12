@@ -191,7 +191,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1994356929296164717}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.28, y: 0.419, z: 0.579}
+  m_LocalPosition: {x: 0.28, y: 0.419, z: 0.718}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -641,16 +641,22 @@ MonoBehaviour:
   RefGameObjects:
   - {fileID: 199918042312116300}
   - {fileID: 8281444895189127156}
-  RefGuids: 00000000000000000000000000000000
+  - {fileID: 8281444895189127156}
+  RefGuids: 000000000000000000000000000000000000000000000000
   ComponentNames:
   - Unity.Transforms.Rotation
   - Unity.Transforms.Rotation
+  - TeamColorComponent
   PrefabTypeOverrides:
   - Value: 7
     OverrideIndex: 1
+  - Value: 7
+    OverrideIndex: 2
   SendTypeOverrides:
   - Value: 1
     OverrideIndex: 1
+  - Value: 3
+    OverrideIndex: 2
   VariantOverrides: []
   SendForChild:
   - Value: 1

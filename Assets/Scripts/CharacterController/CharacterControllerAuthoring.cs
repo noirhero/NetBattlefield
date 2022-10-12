@@ -123,7 +123,7 @@ public class CharacterControllerAuthoring : MonoBehaviour, IConvertGameObjectToE
             var internalData = new CharacterControllerInternalData
             {
                 Entity = entity,
-                Input = new CharacterControllerInput(),
+                Input = new CharacterControllerInput()
             };
 
             dstManager.AddComponentData(entity, componentData);
@@ -268,8 +268,6 @@ public partial class CharacterControllerSystem : SystemBase
                     rot = rotation.Value
                 };
 
-                var oldRotation = math.mul(rotation.Value, quaternion.AxisAngle(up, -ccInternalData.CurrentRotationAngle));
-
                 NativeList<StatefulCollisionEvent> currentFrameCollisionEvents = default;
                 NativeList<StatefulTriggerEvent> currentFrameTriggerEvents = default;
 
@@ -322,7 +320,7 @@ public partial class CharacterControllerSystem : SystemBase
 
                 // Write back and orientation integration
                 position.Value = transform.pos;
-                rotation.Value = math.mul(oldRotation, quaternion.AxisAngle(up, ccInternalData.CurrentRotationAngle));
+                rotation.Value = quaternion.AxisAngle(up, ccInternalData.CurrentRotationAngle);
 
                 // Write back to chunk data
                 {
